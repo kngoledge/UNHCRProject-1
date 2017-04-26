@@ -4,18 +4,6 @@ var homeApp = angular.module('homeApp', ['ngRoute', 'ngMaterial', 'ngResource'])
 homeApp.controller('HomeController', ['$scope', '$resource', '$routeParams',
     function ($scope, $resource, $routeParams) {
         $scope.main = {};
-        $scope.main.visitPageOne = function() {
-            var urlToSwitch = '#!page1';
-            window.location.href = urlToSwitch;
-        };
-        $scope.main.visitPageTwo = function() {
-            var urlToSwitch = '#!page2';
-            window.location.href = urlToSwitch;
-        };
-        $scope.main.visitPageThree = function() {
-            var urlToSwitch = '#!page3';
-            window.location.href = urlToSwitch;
-        };
 
         function main() {
 			cartodb.createVis('map', 'http://documentation.cartodb.com/api/v2/viz/2b13c956-e7c1-11e2-806b-5404a6a683d5/viz.json', {
@@ -35,6 +23,10 @@ homeApp.controller('HomeController', ['$scope', '$resource', '$routeParams',
 			  layers[1].on('featureOver', function(e, latlng, pos, data) {
 			    cartodb.log.log(e, latlng, pos, data);
 			  });
+
+			  var sublayer = layers[1].getSubLayer(0);
+
+			  sublayer.infowindow.set('template', $('#infowindow_template').html());
 			  // you can get the native map to work with it
 			  var map = vis.getNativeMap();
 			  // now, perform any operations you need
